@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearance Price Calculator</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            padding: 30px 0px;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 30px;
+        }
+        main {
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        transform: translate(-50%, -25%);
+        }
+        #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        border: 1px solid grey;
+        border-radius: 15px;
+        }
+        #upper{
+            background-color: red;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 15px;
+        }
+        #discount {
+            text-align: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        #lower{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 10px;
+            padding-top: 5px;
+            text-align: center;
+        }
+        #logo {
+            margin-top: 5px;
+            padding: 1px;
+            width: 80%;
+            background-color: blue;
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        #lower>p{
+            align-self:flex-start;
+        }
+        input {
+            margin-top: 30px;
+            font-weight: bold;
+            text-align: center;
+            width: 70%;
+        }
+        #settings {
+            margin-bottom:5px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="title">Clearance Pricing</h1>
+    </header>
+    <main>
+        <div id="wrapper">
+            <div id="upper">
+                <h4>SPECIAL SAVINGS</h4>
+                <p id="discount">Enter Price</p>
+            </div>
+            <div id="lower">
+                <h4 id="logo">The Container Store©</h4>
+                <p style="text-align:left">13 <span style="margin-left:15px;">Discontinued</span></p>
+                <input id="price" type="text" placeholder="Original Price"
+                autocomplete="off" onkeydown="updatePrice(this)">
+                <div id="settings">
+                    <select id="percentage">
+                        <option value=".75">25% off</option>
+                        <option value=".5">50% off</option>
+                        <option value=".25" selected="selected">75% off</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const newPrice = document.getElementById("discount");
+        const input = document.getElementById("price");
+        const discount = document.getElementById("percentage");
+        discount.addEventListener('change', updatePercentage);
+
+        function updatePercentage() {
+            newPrice.textContent = clearance(input.value)
+        }
+
+        function updatePrice(ele){
+            if (event.key === "Enter"){
+                newPrice.textContent = clearance(ele.value);
+            }
+        }
+
+        function roundPrice(num) {
+            console.log(num);
+            let x = Math.floor(Number(num)) - 1;
+            return x.toString()+'.97';
+        }
+
+        function clearance(price) {
+            let x = discount.value;
+            if (!Number(price) || price < 0) return "Enter Price"
+            let markdown = (price * x).toFixed(2);
+            let discounted = markdown.toString();
+            console.log(discounted);
+            console.log(discounted[discounted.length -2]);
+            if (discounted[discounted.length -2] == '0') return "$"+roundPrice(markdown);
+            else return "$"+discounted.slice(0, -1)+'7'
+        }
+    </script>
+</body>
+</html>
