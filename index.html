@@ -138,8 +138,8 @@
 
         function roundPrice(num) {
             console.log(num);
-            let x = Math.floor(Number(num)) - 1;
-            return x.toString()+'.97';
+            let x = num.slice(0, -2);
+            return x.toString()+'17';
         }
 
         function clearance(price) {
